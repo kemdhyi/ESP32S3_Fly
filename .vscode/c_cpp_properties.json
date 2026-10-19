@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "name": "ESP-IDF (clangd)",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "cStandard": "c17",
+            "cppStandard": "c++2b",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

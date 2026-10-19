@@ -1,0 +1,18 @@
+# CF-Drone ESP-IDF 工程 —— 忽略规则
+
+# 构建产物
+build/
+sdkconfig
+sdkconfig.old
+cold_build.log
+
+# 组件管理器下载的依赖（由 idf.py 依据 main/idf_component.yml 自动还原）
+managed_components/
+dependencies.lock
+
+# 编辑器
+.vscode/*.log
+
+# 临时文件
+*.swp
+*.bak

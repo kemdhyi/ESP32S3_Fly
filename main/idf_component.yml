@@ -1,0 +1,10 @@
+## CF-Drone 依赖组件
+##
+## MAVLink v2 C 库：使用乐鑫官方封装组件（内部即 mavlink/c_library_v2）。
+## 组件会被 idf.py 自动下载到 managed_components/ 目录。
+##
+## 首次构建前会联网拉取（约 1.4 MB）。若需离线构建，可改为把该组件的
+## 头文件直接放进 components/mavlink/，并在 main/CMakeLists.txt 的
+## CFDRONE_EXTRA_REQUIRES 中引用。
+dependencies:
+  espressif/mavlink: "^1.0.0"

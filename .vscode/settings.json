@@ -1,0 +1,51 @@
+{
+    "//": "CF-Drone 纯 ESP-IDF 工程 —— VS Code 工作区配置",
+    "//1": "配合 Espressif IDF 插件使用；clangd 从 build/compile_commands.json 获取编译参数",
+
+    "idf.currentSetup": "D:\\esp\\v5.4.4\\esp-idf",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.customExtraVars": {
+        "IDF_TOOLS_PATH": "D:\\Espressif",
+        "IDF_PYTHON_ENV_PATH": "D:\\Espressif\\tools\\python\\v5.4.4\\venv"
+    },
+    "idf.portWin": "COM5",
+    "idf.flashType": "UART",
+    "idf.adapterTargetName": "esp32s3",
+    "idf.buildPath": "${workspaceFolder}/build",
+    "idf.monitorBaudRate": "115200",
+
+    "//clangd": "使用 ESP-IDF 自带的 esp-clang，索引 build/compile_commands.json",
+    "clangd.path": "D:\\Espressif\\tools\\esp-clang\\esp-18.1.2_20240912\\esp-clang\\bin\\clangd.exe",
+    "clangd.arguments": [
+        "--background-index",
+        "--clang-tidy=false",
+        "--query-driver=**",
+        "--compile-commands-dir=${workspaceFolder}/build",
+        "--header-insertion=never"
+    ],
+    "C_Cpp.intelliSenseEngine": "disabled",
+
+    "files.associations": {
+        "*.h": "cpp",
+        "*.hpp": "cpp"
+    },
+    "files.encoding": "utf8",
+    "files.eol": "\n",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false,
+
+    "search.exclude": {
+        "build/**": true,
+        "managed_components/**": true
+    },
+    "files.watcherExclude": {
+        "**/build/**": true,
+        "**/managed_components/**": true
+	},
+	"idf.port": "COM11"
+}

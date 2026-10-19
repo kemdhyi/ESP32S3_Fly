@@ -1,0 +1,88 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "IDF: 环境自检",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "--version"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "problemMatcher": []
+        },
+        {
+            "label": "IDF: 构建",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "build"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "group": { "kind": "build", "isDefault": true },
+            "problemMatcher": ["$espressifIDF-ProblemMatcher"]
+        },
+        {
+            "label": "IDF: 设置目标 ESP32-S3",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "set-target", "esp32s3"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "problemMatcher": ["$espressifIDF-ProblemMatcher"]
+        },
+        {
+            "label": "IDF: 烧录",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "-p", "${input:port}", "flash"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "problemMatcher": ["$espressifIDF-ProblemMatcher"]
+        },
+        {
+            "label": "IDF: 烧录并监视",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "-p", "${input:port}", "flash", "monitor"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "isBackground": true,
+            "problemMatcher": ["$espressifIDF-ProblemMatcher"]
+        },
+        {
+            "label": "IDF: 串口监视",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "-p", "${input:port}", "monitor"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "IDF: menuconfig",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "menuconfig"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "problemMatcher": []
+        },
+        {
+            "label": "IDF: 固件尺寸",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "size-components"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "problemMatcher": []
+        },
+        {
+            "label": "IDF: 清理",
+            "type": "shell",
+            "command": "${workspaceFolder}/idf_env.ps1",
+            "args": ["idf.py", "fullclean"],
+            "options": { "shell": { "executable": "pwsh.exe", "args": ["-NoProfile", "-Command"] } },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "port",
+            "type": "promptString",
+            "description": "串口（如 COM5）",
+            "default": "COM5"
+        }
+    ]
+}
