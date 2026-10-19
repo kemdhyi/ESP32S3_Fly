@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "GDB: OpenOCD (ESP32-S3 内置 USB-JTAG)",
+            "type": "cppdbg",
+            "request": "launch",
+            "MIMode": "gdb",
+            "program": "${workspaceFolder}/build/cf_drone.elf",
+            "cwd": "${workspaceFolder}",
+            "miDebuggerPath": "D:\\Espressif\\tools\\xtensa-esp-elf-gdb\\16.3_20250913\\xtensa-esp-elf-gdb\\bin\\xtensa-esp32s3-elf-gdb.exe",
+            "miDebuggerServerAddress": "localhost:3333",
+            "setupCommands": [
+                { "description": "连接 OpenOCD", "text": "target remote :3333" },
+                { "description": "复位并停在入口", "text": "mon reset halt" },
+                { "description": "加载符号", "text": "thb app_main" },
+                { "description": "继续运行到 app_main", "text": "c" }
+            ],
+            "externalConsole": false,
+            "logging": { "engineLogging": false }
+        },
+        {
+            "name": "OpenOCD: 启动调试服务器 (ESP32-S3 内置 USB-JTAG)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/cf_drone.elf",
+            "MIMode": "gdb",
+            "miDebuggerPath": "D:\\Espressif\\tools\\xtensa-esp-elf-gdb\\16.3_20250913\\xtensa-esp-elf-gdb\\bin\\xtensa-esp32s3-elf-gdb.exe",
+            "miDebuggerServerAddress": "localhost:3333",
+            "externalConsole": false
+        }
+    ]
+}

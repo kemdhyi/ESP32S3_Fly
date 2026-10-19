@@ -1,0 +1,16 @@
+# CF-Drone 飞控分区表 (ESP32-S3, 4MB flash)
+#
+# 设计取舍：
+#   * 原 Arduino 工程无 OTA 能力，本移植默认也不预留 OTA 槽位，
+#     把 flash 全部留给固件（NVS 之外），避免无谓占用。
+#   * 如需 OTA，请把 factory 改为 ota_0/ota_1 并相应减小体积，
+#     同时把 sdkconfig.defaults 里的 flash 大小调到 8MB。
+#
+# 与原 Arduino 工程的差异：Arduino 使用默认分区表且 Preferences 的 NVS 位于固定偏移。
+# 改用自定义分区表后，首次刷入 IDF 固件时旧 NVS 数据不可用，
+# 需要重新执行 `preset` + `ca` + `cr` 完成参数重置与传感器标定。
+#
+# Name,     Type, SubType, Offset,   Size,     Flags
+nvs,        data, nvs,     0x9000,   0x6000,
+phy_init,   data, phy,     0xf000,   0x1000,
+factory,    app,  factory, 0x10000,  0x300000,

@@ -1,0 +1,98 @@
+menu "CF-Drone 飞控配置"
+
+    config CFDRONE_WIFI_ENABLED
+        bool "启用 WiFi（Web 遥控 / MAVLink 遥测依赖此项）"
+        default y
+        help
+            关闭后不初始化 esp_wifi，可彻底释放约 40KB RAM 与 WiFi 任务栈。
+            WiFi 关闭时 Web 遥控与 MAVLink 遥测也会一并禁用。
+
+    config CFDRONE_WEB_RC_ENABLED
+        bool "启用 Web 遥控器（内置 HTTP 服务器 + 网页摇杆）"
+        default y
+        depends on CFDRONE_WIFI_ENABLED
+        help
+            提供一个极简 HTTP 服务器，托管内置网页遥控器界面与调试控制台。
+
+    config CFDRONE_MAVLINK_ENABLED
+        bool "启用 MAVLink 遥测（QGroundControl / Mission Planner）"
+        default y
+        depends on CFDRONE_WIFI_ENABLED
+        help
+            通过 UDP 14550 与地面站通信，支持参数读写、手动控制、日志传输。
+
+    config CFDRONE_CONSOLE_UART_NUM
+        int "调试串口控制器编号"
+        default 0
+        range 0 2
+        help
+            默认 UART0，即 USB 串口 / CP210x 桥接口。
+
+    config CFDRONE_CONSOLE_BAUD
+        int "调试串口波特率"
+        default 115200
+
+    config CFDRONE_FC_TASK_CORE
+        int "飞控主循环绑定的 CPU 核心"
+        default 1
+        range 0 1
+        help
+            ESP32-S3 为双核。默认飞控跑在 core 1，WiFi/TCP-IP 与 HTTP 跑在 core 0，
+            避免 WiFi 中断抖动影响姿态环时序。
+
+    config CFDRONE_FC_TASK_PRIORITY
+        int "飞控主循环任务优先级"
+        default 10
+
+    config CFDRONE_FC_TASK_STACK
+        int "飞控主循环任务栈大小（字节）"
+        default 8192
+
+    # ------------------------------------------------------------------
+    # 注意：以下 HTTP_* 三个选项**故意不设置** depends on CFDRONE_WEB_RC_ENABLED。
+    # comm/http_server.cpp 无条件参与编译（它提供路由分发与响应发送），
+    # 源码中引用了这三个宏。若让宏随 Web RC 一起从 sdkconfig.h 消失，
+    # 则在 menuconfig 中关闭 Web RC（或关闭 WiFi）时该文件会编译失败。
+    # 保持无条件存在，关闭 Web RC 时它们只是不再被使用。
+    # ------------------------------------------------------------------
+    config CFDRONE_HTTP_TASK_CORE
+        int "HTTP 服务器任务绑定的 CPU 核心"
+        default 0
+        range 0 1
+        help
+            仅在启用 Web 遥控器时实际生效。
+
+    config CFDRONE_HTTP_PORT
+        int "Web 遥控器 HTTP 端口"
+        default 80
+        help
+            仅在启用 Web 遥控器时实际生效。
+
+    config CFDRONE_HTTP_REDIRECT_PORT
+        int "旧 PCB 地址兼容重定向端口（0=禁用）"
+        default 8080
+        help
+            旧 PCB 丝印指向 :8080，此处提供 301 跳转到主端口。全部淘汰后可设为 0。
+            仅在启用 Web 遥控器时实际生效。
+
+    config CFDRONE_MAVLINK_SYS_ID
+        int "MAVLink 系统 ID 默认值"
+        default 1
+        range 1 254
+        help
+            该值仅在首次上电写入 NVS 时作为默认值，
+            之后由参数 MAV_SYS_ID 持久化控制。
+
+    config CFDRONE_MAVLINK_UDP_LOCAL_PORT
+        int "MAVLink 本地 UDP 监听端口"
+        default 14550
+        help
+            仅作为参数 WIFI_LOC_PORT 的初始默认值来源。
+
+    config CFDRONE_MAVLINK_UDP_REMOTE_PORT
+        int "MAVLink 远端 UDP 目标端口"
+        default 14550
+        help
+            仅作为参数 WIFI_REM_PORT 的初始默认值来源。
+
+endmenu
